@@ -1,7 +1,7 @@
 import { mapUnmanagedContents } from './map-unmanaged-contents';
 import { normalizeSections } from './normalize-sections';
 
-describe.skip('mapUnmanagedContents', () => {
+describe('mapUnmanagedContents', () => {
     test('maps unmanaged content to managed', () => {
         const contents = [
             '# @managed start header',

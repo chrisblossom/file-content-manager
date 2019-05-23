@@ -2,8 +2,8 @@ import fse from 'fs-extra';
 import { updateContents } from './utils/update-contents';
 import { normalizeSections } from './utils/normalize-sections';
 import { mapUnmanagedContents } from './utils/map-unmanaged-contents';
-import { removeManagedLines } from './utils/managed-lines';
-import { splitNewLines } from './utils/split-new-lines';
+import { addManagedLines, removeManagedLines } from './utils/managed-lines';
+import { normalizeNewLines, splitNewLines } from './utils/new-lines';
 
 export interface Section {
     id: string;
@@ -14,7 +14,7 @@ export type Header = string;
 export type Footer = string;
 export type Body = Section[];
 
-interface Args {
+interface FileManagerParams {
     file: string;
     marker: string;
     fileType: string;
@@ -27,7 +27,7 @@ interface Args {
     removeInitialContent?: boolean;
 }
 
-async function fileManager(args: Args) {
+async function fileManager(args: FileManagerParams) {
     const {
         //
         file,
@@ -60,7 +60,7 @@ async function fileManager(args: Args) {
         marker,
     });
 
-    const contentsNormalized = mapUnmanagedContents({
+    const unmanagedContentMap = mapUnmanagedContents({
         contents: excessSpacesRemoved,
         sections: normalizedSections,
         identifier,
@@ -69,16 +69,24 @@ async function fileManager(args: Args) {
         removeInitialContent,
     });
 
-    // const update = updateContents({
-    //     contents: contentsNormalized,
-    //     sections: normalizedSections,
-    //     marker,
-    //     identifier,
-    // });
-    //
-    // const combine = `|${update.join('\n')}|`;
-    //
-    // return combine;
+    const update = updateContents({
+        unmanaged: unmanagedContentMap,
+        sections: normalizedSections,
+        marker,
+        identifier,
+    });
+
+    const managedNewLinesAdded = addManagedLines({
+        contents: update,
+        identifier,
+        marker,
+    });
+
+    const initialMerge = managedNewLinesAdded.join('\n');
+
+    const normalized = normalizeNewLines(initialMerge);
+
+    return normalized;
 }
 
 export { fileManager };

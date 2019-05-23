@@ -1,6 +1,6 @@
 import { parseLine } from './parse-line';
 
-describe.skip('parseLine', () => {
+describe('parseLine', () => {
     test.each`
         identifier | marker          | text                           | expected
         ${'#'}     | ${'@example'}   | ${'# @example start header'}   | ${{ isComment: true, isMarker: true, section: 'header', state: 'start' }}

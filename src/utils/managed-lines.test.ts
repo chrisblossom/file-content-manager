@@ -124,6 +124,58 @@ describe('header footer body and content with excess lines', () => {
     });
 });
 
+describe('header footer body and no content', () => {
+    const withLines = [
+        '# @managed start header',
+        '# header',
+        '# @managed end header',
+        '',
+        '# @managed start body1',
+        '# body1',
+        '# @managed end body1',
+        '',
+        '# @managed start footer',
+        '# footer',
+        '# @managed end footer',
+        '',
+    ];
+
+    const withOutLines = [
+        '# @managed start header',
+        '# header',
+        '# @managed end header',
+        '# @managed start body1',
+        '# body1',
+        '# @managed end body1',
+        '# @managed start footer',
+        '# footer',
+        '# @managed end footer',
+    ];
+
+    const identifier = '#';
+    const marker = '@managed';
+
+    test('addManagedLines', () => {
+        const linesAdded = addManagedLines({
+            contents: withOutLines,
+            identifier,
+            marker,
+        });
+
+        expect(linesAdded).toEqual(withLines);
+    });
+
+    test('removeManagedLines', () => {
+        const linesRemoved = removeManagedLines({
+            contents: withLines,
+            identifier,
+            marker,
+        });
+
+        expect(linesRemoved).toEqual(withOutLines);
+    });
+});
+
 describe('adds new line at end when not managed', () => {
     const withLines = [
         '# @managed start footer',

@@ -1,5 +1,3 @@
-import { updateContents } from '../utils/update-contents';
-
-function ignore(contents: string) {}
+function ignore() {}
 
 export { ignore };

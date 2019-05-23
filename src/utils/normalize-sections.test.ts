@@ -1,6 +1,6 @@
 import { normalizeSections } from './normalize-sections';
 
-describe.only('normalizeSections', () => {
+describe('normalizeSections', () => {
     test('body with header/footer', () => {
         const header = '# header';
         const footer = '# footer';
@@ -13,13 +13,15 @@ describe.only('normalizeSections', () => {
         const normalized = normalizeSections({ header, body, footer });
 
         expect(normalized).toEqual({
+            ids: ['', 'header', 'body1', 'body2', 'footer'],
             contents: {
+                header: '# header',
                 body1: '# body1',
                 body2: '# body2',
+                footer: '# footer',
             },
-            footer: '# footer',
-            header: '# header',
-            ids: ['body1', 'body2'],
+            header: true,
+            footer: true,
         });
     });
 
@@ -32,13 +34,10 @@ describe.only('normalizeSections', () => {
         const normalized = normalizeSections({ body });
 
         expect(normalized).toEqual({
-            contents: {
-                body1: '# body1',
-                body2: '# body2',
-            },
-            footer: null,
-            header: null,
-            ids: ['body1', 'body2'],
+            ids: ['', 'body1', 'body2'],
+            contents: { body1: '# body1', body2: '# body2' },
+            header: false,
+            footer: false,
         });
     });
 
@@ -48,10 +47,10 @@ describe.only('normalizeSections', () => {
 
         const normalized = normalizeSections({ header, footer });
         expect(normalized).toEqual({
-            contents: {},
-            footer: '# footer',
-            header: '# header',
-            ids: [],
+            ids: ['', 'header', 'footer'],
+            contents: { header: '# header', footer: '# footer' },
+            header: true,
+            footer: true,
         });
     });
 
@@ -62,10 +61,10 @@ describe.only('normalizeSections', () => {
         const normalized = normalizeSections({ header, footer });
 
         expect(normalized).toEqual({
-            contents: {},
-            footer: '',
-            header: '',
-            ids: [],
+            ids: ['', 'header', 'footer'],
+            contents: { header: '', footer: '' },
+            header: true,
+            footer: true,
         });
     });
 
@@ -73,10 +72,10 @@ describe.only('normalizeSections', () => {
         const normalized = normalizeSections({});
 
         expect(normalized).toEqual({
+            ids: [''],
             contents: {},
-            footer: null,
-            header: null,
-            ids: [],
+            header: false,
+            footer: false,
         });
     });
 

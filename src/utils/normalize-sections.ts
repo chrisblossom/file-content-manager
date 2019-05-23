@@ -9,8 +9,8 @@ interface NormalizeSectionsParameters {
 export type SectionsNormalized = {
     ids: string[];
     contents: { [key: string]: string };
-    header: string | null;
-    footer: string | null;
+    header: boolean;
+    footer: boolean;
 };
 
 function normalizeSections({
@@ -19,11 +19,17 @@ function normalizeSections({
     footer,
 }: NormalizeSectionsParameters): SectionsNormalized {
     const initial: SectionsNormalized = {
-        ids: [],
+        ids: [''],
         contents: {},
-        header: typeof header === 'string' ? header : null,
-        footer: typeof footer === 'string' ? footer : null,
+        header: false,
+        footer: false,
     };
+
+    if (typeof header === 'string') {
+        initial.ids.push('header');
+        initial.contents.header = header;
+        initial.header = true;
+    }
 
     const normalized = body.reduce((acc: SectionsNormalized, section) => {
         if (['header', 'footer'].includes(section.id)) {
@@ -47,6 +53,12 @@ function normalizeSections({
 
         return { ...acc, ids, contents };
     }, initial);
+
+    if (typeof footer === 'string') {
+        normalized.ids.push('footer');
+        normalized.contents.footer = footer;
+        normalized.footer = true;
+    }
 
     return normalized;
 }

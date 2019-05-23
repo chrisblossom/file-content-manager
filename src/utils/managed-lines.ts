@@ -7,14 +7,27 @@ interface Params {
 }
 
 function addManagedLines({ contents, identifier, marker }: Params) {
+    let lastWasMarker = false;
+
     const linesAdded = contents.reduce((acc: string[], line, index) => {
-        const { state } = parseLine({ line, identifier, marker });
+        const { isMarker, state } = parseLine({ line, identifier, marker });
+
+        // prevent double managed lines between managed sections
+        if (line !== '' && isMarker === false) {
+            lastWasMarker = false;
+        }
 
         if (state === 'start' && index !== 0) {
+            if (lastWasMarker === true) {
+                return [...acc, line];
+            }
+
             return [...acc, '', line];
         }
 
         if (state === 'end') {
+            lastWasMarker = true;
+
             return [...acc, line, ''];
         }
 

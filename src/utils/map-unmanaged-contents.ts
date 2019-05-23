@@ -27,11 +27,11 @@ function mapUnmanagedContents({
         return {};
     }
 
-    const previouslyManaged = wasPreviouslyManaged(
+    const previouslyManaged = wasPreviouslyManaged({
         contents,
         identifier,
         marker,
-    );
+    });
 
     if (removeInitialContent === true) {
         if (previouslyManaged === false) {
@@ -43,12 +43,18 @@ function mapUnmanagedContents({
     let lastSectionId = '';
     let forcedSectionId = '';
 
-    const sectionCount = sections.ids.length;
-    if (
-        previouslyManaged === false &&
-        (sectionCount !== 0 || sections.header !== null)
-    ) {
-        lastSectionId = sections.ids[sectionCount - 1] || 'header';
+    /**
+     * Previously unmanaged content placement
+     */
+    if (previouslyManaged === false) {
+        // footer will always be the last index but we won't want anything after the footer
+        const footerIndex = sections.ids.indexOf('footer');
+        lastSectionId =
+            footerIndex !== -1
+                ? // place above footer
+                  sections.ids[footerIndex - 1]
+                : // place after last managed
+                  sections.ids[sections.ids.length - 1];
     }
 
     const contentMap = contents.reduce(
@@ -74,30 +80,32 @@ function mapUnmanagedContents({
 
             if (state === 'end') {
                 // exclude footer to force footer to bottom
-                const matchedSection = [
-                    ...(sections.header !== null ? ['header'] : []),
-                    ...sections.ids,
-                ].includes(section);
+                if (section !== 'footer') {
+                    const matchedSection = sections.ids.includes(section);
 
-                if (matchedSection === true) {
-                    lastSectionId = section;
-                }
+                    if (matchedSection === true) {
+                        lastSectionId = section;
+                    }
 
-                /**
-                 * handle removed managed sections
-                 */
-                if (matchedSection === false) {
-                    const previousSection = acc[lastSectionId] || [];
-                    const previousSectionLine =
-                        previousSection[previousSection.length - 1];
-                    const nextLine = contents[index + 1] || '';
+                    /**
+                     * handle removed managed sections
+                     */
+                    if (matchedSection === false) {
+                        const previousSection = acc[lastSectionId] || [];
+                        const previousSectionLine =
+                            previousSection[previousSection.length - 1];
+                        const nextLine = contents[index + 1] || '';
 
-                    if (previousSectionLine !== '' && nextLine !== '') {
-                        // add space when section removed
-                        previousSection.push('');
-                    } else if (previousSectionLine === '' && nextLine === '') {
-                        // combine double spaces when section removed
-                        previousSection.pop();
+                        if (previousSectionLine !== '' && nextLine !== '') {
+                            // add space when section removed
+                            previousSection.push('');
+                        } else if (
+                            previousSectionLine === '' &&
+                            nextLine === ''
+                        ) {
+                            // combine double spaces when section removed
+                            previousSection.pop();
+                        }
                     }
                 }
 
@@ -112,7 +120,7 @@ function mapUnmanagedContents({
             /**
              * Do not allow unmanaged text above header
              */
-            if (lastSectionId === '' && sections.header !== null) {
+            if (lastSectionId === '' && sections.header === true) {
                 forcedSectionId = 'header';
             }
 

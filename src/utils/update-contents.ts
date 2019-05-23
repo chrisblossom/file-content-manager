@@ -9,48 +9,32 @@ interface Params {
 }
 
 function updateContents({ unmanaged, sections, marker, identifier }: Params) {
-    const allSections = [];
+    const updated = sections.ids.reduce((acc: string[], sectionId) => {
+        const unmanagedContent = unmanaged[sectionId] || [];
 
-    // unmanaged top file key is ''
-    if (Array.isArray(unmanaged[''])) {
-        allSections.push('');
-    }
-
-    if (sections.header !== null) {
-        allSections.push('header');
-    }
-
-    allSections.push(...sections.ids);
-
-    if (sections.footer !== null) {
-        allSections.push('footer');
-    }
-
-    const updated = allSections.reduce((acc: string[], sectionId) => {
+        // unmanaged top file key is ''
         if (sectionId === '') {
-            return [...acc, ...unmanaged[sectionId]];
+            // no top unmanaged content
+            if (unmanagedContent.length === 0) {
+                return acc;
+            }
+
+            return [...acc, ...unmanagedContent];
         }
 
         const startMarker = `${identifier} ${marker} start ${sectionId}`;
         const endMarker = `${identifier} ${marker} end ${sectionId}`;
 
-        let sectionContents;
-        if (sectionId === 'header' && sections.header !== null) {
-            sectionContents = sections.header;
-        } else if (sectionId === 'footer' && sections.footer !== null) {
-            sectionContents = sections.footer;
-        } else {
-            sectionContents = sections.contents[sectionId];
-        }
+        const sectionContents = sections.contents[sectionId];
 
-        sectionContents = sectionContents !== '' ? [sectionContents] : [];
-
-        const unmanagedContent = unmanaged[sectionId] || [];
+        // Prevent empty content from adding unnecessary new line
+        const normalizedContents =
+            sectionContents !== '' ? [sectionContents] : [];
 
         return [
             ...acc,
             startMarker,
-            ...sectionContents,
+            ...normalizedContents,
             endMarker,
             ...unmanagedContent,
         ];

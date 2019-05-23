@@ -1,6 +1,6 @@
 import { wasPreviouslyManaged } from './was-previously-managed';
 
-describe.skip('wasPreviouslyManaged', () => {
+describe('wasPreviouslyManaged', () => {
     test('true', () => {
         const contents = [
             '# @managed start header',
@@ -19,11 +19,11 @@ describe.skip('wasPreviouslyManaged', () => {
 
         const identifier = '#';
         const marker = '@managed';
-        const previouslyManaged = wasPreviouslyManaged(
+        const previouslyManaged = wasPreviouslyManaged({
             contents,
             identifier,
             marker,
-        );
+        });
 
         expect(previouslyManaged).toEqual(true);
     });
@@ -33,11 +33,11 @@ describe.skip('wasPreviouslyManaged', () => {
 
         const identifier = '#';
         const marker = '@managed';
-        const previouslyManaged = wasPreviouslyManaged(
+        const previouslyManaged = wasPreviouslyManaged({
             contents,
             identifier,
             marker,
-        );
+        });
 
         expect(previouslyManaged).toEqual(false);
     });
