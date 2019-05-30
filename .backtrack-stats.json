@@ -14,6 +14,7 @@
             ".gitignore": "8791c419e79de53e5c2eefa59ab16b52b5413bd08da46be94e9e6cc3153a17a0",
             ".huskyrc.js": "d41c387b0d3f16730829f444ef7bc0665cc52e92847c548c5166ebb7597bc69a",
             ".lintstagedrc.js": "5398a6883c9332018fa32fdac8989989eef1eca27c0e2d92ccf35bb13381e7e7",
+            ".np-config.js": "2057ff5c26393f3bf0b8873dd72eeaa60feabc4f04142ac70a5899c8d1c1451b",
             ".npmrc": "f535d8452d57a9d969bc54c2eaa831f3e20ccb5c3dbeeabc6f613d27a4b5a28a",
             ".prettierignore": "df678e7a458aba93c115564cfd4a701bdf4397e943de8745d37f2798c1dc5c11",
             ".prettierrc.js": "f76ed92bea30dd6cb22675cedc0044614a9220be9b74859b5750a54ef4745a99",
@@ -37,6 +38,7 @@
             "dist/"
         ],
         "main": "dist/file-manager.js",
+        "private": false,
         "scripts": {
             "build": "backtrack build --production",
             "clean": "backtrack clean",
@@ -47,6 +49,7 @@
             "lint": "backtrack lint",
             "lint.fix": "backtrack lint.fix",
             "prepublishOnly": "backtrack prepublishOnly",
+            "release": "backtrack release",
             "test": "backtrack test",
             "test.ci": "backtrack test.ci",
             "test.ci-pretest": "backtrack test.ci-pretest",
