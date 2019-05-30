@@ -72,6 +72,7 @@ async function fileManager(args: FileManagerParams) {
     const update = updateContents({
         unmanaged: unmanagedContentMap,
         sections: normalizedSections,
+        allowUnmanagedContent,
         marker,
         identifier,
     });

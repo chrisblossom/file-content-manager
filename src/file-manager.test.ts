@@ -156,4 +156,42 @@ describe('fileManager', () => {
 `.trimStart(),
         );
     });
+
+    test('allowUnmanagedContent - false', async () => {
+        sandbox.createFileSync('.gitignore');
+
+        const body = [
+            { id: 'body1', contents: '# body1' },
+            { id: 'body2', contents: '# body2' },
+        ];
+
+        const header = '# header';
+        const footer = '# footer';
+
+        const removeInitialContent = false;
+        const allowUnmanagedContent = false;
+
+        const updatedFile = await fileManager({
+            file: '.gitignore',
+            marker: '@managed',
+            fileType: 'ignore',
+            body,
+            header,
+            footer,
+            allowUnmanagedContent,
+            removeInitialContent,
+        });
+
+        expect(updatedFile).toEqual(
+            `
+# header
+
+# body1
+
+# body2
+
+# footer
+`.trimStart(),
+        );
+    });
 });

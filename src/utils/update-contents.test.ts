@@ -55,6 +55,7 @@ describe('updateContents', () => {
             sections,
             marker,
             identifier,
+            allowUnmanagedContent,
         });
 
         expect(updated).toEqual([
@@ -111,6 +112,7 @@ describe('updateContents', () => {
             sections,
             marker,
             identifier,
+            allowUnmanagedContent,
         });
 
         expect(updated).toEqual([
@@ -162,6 +164,7 @@ describe('updateContents', () => {
             sections,
             marker,
             identifier,
+            allowUnmanagedContent,
         });
 
         expect(updated).toEqual([
@@ -204,6 +207,7 @@ describe('updateContents', () => {
             sections,
             marker,
             identifier,
+            allowUnmanagedContent,
         });
 
         expect(updated).toEqual([
@@ -244,6 +248,7 @@ describe('updateContents', () => {
             sections,
             marker,
             identifier,
+            allowUnmanagedContent,
         });
 
         expect(updated).toEqual([
@@ -288,6 +293,7 @@ describe('updateContents', () => {
             sections,
             marker,
             identifier,
+            allowUnmanagedContent,
         });
 
         expect(updated).toEqual([
@@ -307,6 +313,7 @@ describe('updateContents', () => {
 
         const marker = '@managed';
         const identifier = '#';
+        const allowUnmanagedContent = true;
 
         const unmanagedContentMap = { '': ['1', '2'] };
         const updated = updateContents({
@@ -314,6 +321,7 @@ describe('updateContents', () => {
             sections,
             marker,
             identifier,
+            allowUnmanagedContent,
         });
 
         expect(updated).toEqual([
@@ -333,6 +341,7 @@ describe('updateContents', () => {
 
         const marker = '@managed';
         const identifier = '#';
+        const allowUnmanagedContent = true;
 
         const unmanagedContentMap = { footer: ['1', '2'] };
         const updated = updateContents({
@@ -340,6 +349,7 @@ describe('updateContents', () => {
             sections,
             marker,
             identifier,
+            allowUnmanagedContent,
         });
 
         expect(updated).toEqual([
@@ -375,6 +385,7 @@ describe('updateContents', () => {
             sections,
             marker,
             identifier,
+            allowUnmanagedContent,
         });
 
         expect(updated).toEqual(['1', '2']);
@@ -404,6 +415,7 @@ describe('updateContents', () => {
             sections,
             marker,
             identifier,
+            allowUnmanagedContent,
         });
 
         expect(updated).toEqual([]);
@@ -435,6 +447,7 @@ describe('updateContents', () => {
             sections,
             marker,
             identifier,
+            allowUnmanagedContent,
         });
 
         expect(updated).toEqual([
@@ -474,6 +487,7 @@ describe('updateContents', () => {
             sections,
             marker,
             identifier,
+            allowUnmanagedContent,
         });
 
         expect(updated).toEqual([
@@ -486,5 +500,39 @@ describe('updateContents', () => {
             '# @managed start footer',
             '# @managed end footer',
         ]);
+    });
+
+    test('allowUnmanagedContent: false - do not add markers', () => {
+        const contents: string[] = ['1', '2'];
+
+        const sections = normalizeSections({
+            header: '# header',
+            body: [{ id: 'body1', contents: '# body1' }],
+            footer: '# footer',
+        });
+
+        const marker = '@managed';
+        const identifier = '#';
+        const removeInitialContent = false;
+        const allowUnmanagedContent = false;
+
+        const unmanagedContentMap = mapUnmanagedContents({
+            sections,
+            contents,
+            identifier,
+            marker,
+            removeInitialContent,
+            allowUnmanagedContent,
+        });
+
+        const updated = updateContents({
+            unmanaged: unmanagedContentMap,
+            sections,
+            marker,
+            identifier,
+            allowUnmanagedContent,
+        });
+
+        expect(updated).toEqual(['# header', '', '# body1', '', '# footer']);
     });
 });

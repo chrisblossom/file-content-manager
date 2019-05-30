@@ -6,9 +6,16 @@ interface Params {
     sections: SectionsNormalized;
     marker: string;
     identifier: string;
+    allowUnmanagedContent: boolean;
 }
 
-function updateContents({ unmanaged, sections, marker, identifier }: Params) {
+function updateContents({
+    unmanaged,
+    sections,
+    allowUnmanagedContent,
+    marker,
+    identifier,
+}: Params) {
     const updated = sections.ids.reduce((acc: string[], sectionId) => {
         const unmanagedContent = unmanaged[sectionId] || [];
 
@@ -22,8 +29,19 @@ function updateContents({ unmanaged, sections, marker, identifier }: Params) {
             return [...acc, ...unmanagedContent];
         }
 
-        const startMarker = `${identifier} ${marker} start ${sectionId}`;
-        const endMarker = `${identifier} ${marker} end ${sectionId}`;
+        let startMarker: string[] = [];
+        let endMarker: string[] = [];
+
+        // only include markers when allowUnmanagedContent is true
+        if (allowUnmanagedContent === true) {
+            startMarker = [`${identifier} ${marker} start ${sectionId}`];
+            endMarker = [`${identifier} ${marker} end ${sectionId}`];
+        }
+
+        // separate sections with new line when allowUnmanagedContent is false
+        if (allowUnmanagedContent === false && sectionId !== 'footer') {
+            endMarker = [''];
+        }
 
         const sectionContents = sections.contents[sectionId];
 
@@ -33,9 +51,9 @@ function updateContents({ unmanaged, sections, marker, identifier }: Params) {
 
         return [
             ...acc,
-            startMarker,
+            ...startMarker,
             ...normalizedContents,
-            endMarker,
+            ...endMarker,
             ...unmanagedContent,
         ];
     }, []);
