@@ -47,7 +47,18 @@ async function fileManager(args: FileManagerParams) {
         removeInitialContent = true;
     }
 
-    const fileContents = await fse.readFile(file, 'utf8');
+    let fileContents: string;
+    try {
+        fileContents = await fse.readFile(file, 'utf8');
+    } catch (error) {
+        if (error.code !== 'ENOENT') {
+            throw error;
+        }
+
+        // handle files that do not exist
+        fileContents = '';
+    }
+
     const normalizedSections = normalizeSections({ body, header, footer });
 
     // move to everything below parsers/ignore.ts

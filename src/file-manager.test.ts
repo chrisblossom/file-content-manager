@@ -20,7 +20,46 @@ afterAll(() => {
 });
 
 describe('fileManager', () => {
-    test('reads ignore', async () => {
+    test('file does not exist', async () => {
+        const body = [{ id: 'body1', contents: '# body1' }];
+
+        const header = '# header';
+        const footer = '# footer';
+
+        const removeInitialContent = false;
+        const allowUnmanagedContent = true;
+
+        const options = {
+            file: '.gitignore',
+            marker: '@managed',
+            fileType: 'ignore',
+            header,
+            body,
+            footer,
+            allowUnmanagedContent,
+            removeInitialContent,
+        };
+
+        const updatedFile = await fileManager(options);
+
+        expect(updatedFile).toEqual(
+            `
+# @managed start header
+# header
+# @managed end header
+
+# @managed start body1
+# body1
+# @managed end body1
+
+# @managed start footer
+# footer
+# @managed end footer
+`.substring(1),
+        );
+    });
+
+    test('previously managed', async () => {
         sandbox.createFileSync(
             '.gitignore',
             `
@@ -43,7 +82,7 @@ describe('fileManager', () => {
 # old
 # footer 
 # @managed end footer
-`.trim(),
+`.substring(1),
         );
 
         const body = [
@@ -96,18 +135,18 @@ describe('fileManager', () => {
 # @managed start footer
 # footer
 # @managed end footer
-`.trimStart(),
+`.substring(1),
         );
     });
 
-    test('initial', async () => {
+    test('previously unmanaged', async () => {
         sandbox.createFileSync(
             '.gitignore',
             `
 # comment
 .eslintrc.js
 .prettierrc.js
-`.trim(),
+`.substring(1),
         );
 
         const body = [
@@ -153,7 +192,7 @@ describe('fileManager', () => {
 # @managed start footer
 # footer
 # @managed end footer
-`.trimStart(),
+`.substring(1),
         );
     });
 
@@ -191,7 +230,7 @@ describe('fileManager', () => {
 # body2
 
 # footer
-`.trimStart(),
+`.substring(1),
         );
     });
 });
