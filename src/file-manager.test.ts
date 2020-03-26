@@ -1,49 +1,49 @@
 import { TempSandbox } from 'temp-sandbox';
-
 import { fileManager } from './file-manager';
 
 const sandbox = new TempSandbox({ randomDir: true });
 
 const cwd = process.cwd();
+
 beforeEach(() => {
-    process.chdir(sandbox.dir);
-    sandbox.cleanSync();
+	process.chdir(sandbox.dir);
+	sandbox.cleanSync();
 });
 
 afterEach(() => {
-    process.chdir(cwd);
+	process.chdir(cwd);
 });
 
 afterAll(() => {
-    sandbox.destroySandboxSync();
-    process.chdir(cwd);
+	sandbox.destroySandboxSync();
+	process.chdir(cwd);
 });
 
 describe('fileManager', () => {
-    test('file does not exist', async () => {
-        const body = [{ id: 'body1', contents: '# body1' }];
+	test('file does not exist', async () => {
+		const body = [{ id: 'body1', contents: '# body1' }];
 
-        const header = '# header';
-        const footer = '# footer';
+		const header = '# header';
+		const footer = '# footer';
 
-        const removeInitialContent = false;
-        const allowUnmanagedContent = true;
+		const removeInitialContent = false;
+		const allowUnmanagedContent = true;
 
-        const options = {
-            file: '.gitignore',
-            marker: '@managed',
-            fileType: 'ignore',
-            header,
-            body,
-            footer,
-            allowUnmanagedContent,
-            removeInitialContent,
-        };
+		const options = {
+			file: '.gitignore',
+			marker: '@managed',
+			fileType: 'ignore',
+			header,
+			body,
+			footer,
+			allowUnmanagedContent,
+			removeInitialContent,
+		};
 
-        const updatedFile = await fileManager(options);
+		const updatedFile = await fileManager(options);
 
-        expect(updatedFile).toEqual(
-            `
+		expect(updatedFile).toEqual(
+			`
 # @managed start header
 # header
 # @managed end header
@@ -56,13 +56,13 @@ describe('fileManager', () => {
 # footer
 # @managed end footer
 `.substring(1),
-        );
-    });
+		);
+	});
 
-    test('previously managed', async () => {
-        sandbox.createFileSync(
-            '.gitignore',
-            `
+	test('previously managed', async () => {
+		sandbox.createFileSync(
+			'.gitignore',
+			`
 # @managed start header
 # old
 # header
@@ -83,34 +83,34 @@ describe('fileManager', () => {
 # footer 
 # @managed end footer
 `.substring(1),
-        );
+		);
 
-        const body = [
-            { id: 'body1', contents: '# body1' },
-            { id: 'body2', contents: '# body2' },
-            { id: 'body3', contents: '# body3' },
-        ];
-        const header = '# header';
-        const footer = '# footer';
+		const body = [
+			{ id: 'body1', contents: '# body1' },
+			{ id: 'body2', contents: '# body2' },
+			{ id: 'body3', contents: '# body3' },
+		];
+		const header = '# header';
+		const footer = '# footer';
 
-        const removeInitialContent = false;
-        const allowUnmanagedContent = true;
+		const removeInitialContent = false;
+		const allowUnmanagedContent = true;
 
-        const options = {
-            file: '.gitignore',
-            marker: '@managed',
-            fileType: 'ignore',
-            header,
-            body,
-            footer,
-            allowUnmanagedContent,
-            removeInitialContent,
-        };
+		const options = {
+			file: '.gitignore',
+			marker: '@managed',
+			fileType: 'ignore',
+			header,
+			body,
+			footer,
+			allowUnmanagedContent,
+			removeInitialContent,
+		};
 
-        const updatedFile = await fileManager(options);
+		const updatedFile = await fileManager(options);
 
-        expect(updatedFile).toEqual(
-            `
+		expect(updatedFile).toEqual(
+			`
 # @managed start header
 # header
 # @managed end header
@@ -136,43 +136,43 @@ describe('fileManager', () => {
 # footer
 # @managed end footer
 `.substring(1),
-        );
-    });
+		);
+	});
 
-    test('previously unmanaged', async () => {
-        sandbox.createFileSync(
-            '.gitignore',
-            `
+	test('previously unmanaged', async () => {
+		sandbox.createFileSync(
+			'.gitignore',
+			`
 # comment
 .eslintrc.js
 .prettierrc.js
 `.substring(1),
-        );
+		);
 
-        const body = [
-            { id: 'body1', contents: '# body1' },
-            { id: 'body2', contents: '# body2' },
-        ];
+		const body = [
+			{ id: 'body1', contents: '# body1' },
+			{ id: 'body2', contents: '# body2' },
+		];
 
-        const header = '# header';
-        const footer = '# footer';
+		const header = '# header';
+		const footer = '# footer';
 
-        const removeInitialContent = false;
-        const allowUnmanagedContent = true;
+		const removeInitialContent = false;
+		const allowUnmanagedContent = true;
 
-        const updatedFile = await fileManager({
-            file: '.gitignore',
-            marker: '@managed',
-            fileType: 'ignore',
-            body,
-            header,
-            footer,
-            allowUnmanagedContent,
-            removeInitialContent,
-        });
+		const updatedFile = await fileManager({
+			file: '.gitignore',
+			marker: '@managed',
+			fileType: 'ignore',
+			body,
+			header,
+			footer,
+			allowUnmanagedContent,
+			removeInitialContent,
+		});
 
-        expect(updatedFile).toEqual(
-            `
+		expect(updatedFile).toEqual(
+			`
 # @managed start header
 # header
 # @managed end header
@@ -193,36 +193,36 @@ describe('fileManager', () => {
 # footer
 # @managed end footer
 `.substring(1),
-        );
-    });
+		);
+	});
 
-    test('allowUnmanagedContent - false', async () => {
-        sandbox.createFileSync('.gitignore');
+	test('allowUnmanagedContent - false', async () => {
+		sandbox.createFileSync('.gitignore');
 
-        const body = [
-            { id: 'body1', contents: '# body1' },
-            { id: 'body2', contents: '# body2' },
-        ];
+		const body = [
+			{ id: 'body1', contents: '# body1' },
+			{ id: 'body2', contents: '# body2' },
+		];
 
-        const header = '# header';
-        const footer = '# footer';
+		const header = '# header';
+		const footer = '# footer';
 
-        const removeInitialContent = false;
-        const allowUnmanagedContent = false;
+		const removeInitialContent = false;
+		const allowUnmanagedContent = false;
 
-        const updatedFile = await fileManager({
-            file: '.gitignore',
-            marker: '@managed',
-            fileType: 'ignore',
-            body,
-            header,
-            footer,
-            allowUnmanagedContent,
-            removeInitialContent,
-        });
+		const updatedFile = await fileManager({
+			file: '.gitignore',
+			marker: '@managed',
+			fileType: 'ignore',
+			body,
+			header,
+			footer,
+			allowUnmanagedContent,
+			removeInitialContent,
+		});
 
-        expect(updatedFile).toEqual(
-            `
+		expect(updatedFile).toEqual(
+			`
 # header
 
 # body1
@@ -231,6 +231,6 @@ describe('fileManager', () => {
 
 # footer
 `.substring(1),
-        );
-    });
+		);
+	});
 });

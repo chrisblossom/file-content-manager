@@ -2,63 +2,63 @@ import { UnmanagedContentMap } from './map-unmanaged-contents';
 import { SectionsNormalized } from './normalize-sections';
 
 interface Params {
-    unmanaged: UnmanagedContentMap;
-    sections: SectionsNormalized;
-    marker: string;
-    identifier: string;
-    allowUnmanagedContent: boolean;
+	unmanaged: UnmanagedContentMap;
+	sections: SectionsNormalized;
+	marker: string;
+	identifier: string;
+	allowUnmanagedContent: boolean;
 }
 
 function updateContents({
-    unmanaged,
-    sections,
-    allowUnmanagedContent,
-    marker,
-    identifier,
+	unmanaged,
+	sections,
+	allowUnmanagedContent,
+	marker,
+	identifier,
 }: Params) {
-    const updated = sections.ids.reduce((acc: string[], sectionId) => {
-        const unmanagedContent = unmanaged[sectionId] || [];
+	const updated = sections.ids.reduce((acc: string[], sectionId) => {
+		const unmanagedContent = unmanaged[sectionId] || [];
 
-        // unmanaged top file key is ''
-        if (sectionId === '') {
-            // no top unmanaged content
-            if (unmanagedContent.length === 0) {
-                return acc;
-            }
+		// unmanaged top file key is ''
+		if (sectionId === '') {
+			// no top unmanaged content
+			if (unmanagedContent.length === 0) {
+				return acc;
+			}
 
-            return [...acc, ...unmanagedContent];
-        }
+			return [...acc, ...unmanagedContent];
+		}
 
-        let startMarker: string[] = [];
-        let endMarker: string[] = [];
+		let startMarker: string[] = [];
+		let endMarker: string[] = [];
 
-        // only include markers when allowUnmanagedContent is true
-        if (allowUnmanagedContent === true) {
-            startMarker = [`${identifier} ${marker} start ${sectionId}`];
-            endMarker = [`${identifier} ${marker} end ${sectionId}`];
-        }
+		// only include markers when allowUnmanagedContent is true
+		if (allowUnmanagedContent === true) {
+			startMarker = [`${identifier} ${marker} start ${sectionId}`];
+			endMarker = [`${identifier} ${marker} end ${sectionId}`];
+		}
 
-        // separate sections with new line when allowUnmanagedContent is false
-        if (allowUnmanagedContent === false && sectionId !== 'footer') {
-            endMarker = [''];
-        }
+		// separate sections with new line when allowUnmanagedContent is false
+		if (allowUnmanagedContent === false && sectionId !== 'footer') {
+			endMarker = [''];
+		}
 
-        const sectionContents = sections.contents[sectionId];
+		const sectionContents = sections.contents[sectionId];
 
-        // Prevent empty content from adding unnecessary new line
-        const normalizedContents =
-            sectionContents !== '' ? [sectionContents] : [];
+		// Prevent empty content from adding unnecessary new line
+		const normalizedContents =
+			sectionContents !== '' ? [sectionContents] : [];
 
-        return [
-            ...acc,
-            ...startMarker,
-            ...normalizedContents,
-            ...endMarker,
-            ...unmanagedContent,
-        ];
-    }, []);
+		return [
+			...acc,
+			...startMarker,
+			...normalizedContents,
+			...endMarker,
+			...unmanagedContent,
+		];
+	}, []);
 
-    return updated;
+	return updated;
 }
 
 export { updateContents };

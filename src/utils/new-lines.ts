@@ -2,13 +2,13 @@
 const newLineRegex = new RegExp(/\r\n|\r|\n/g);
 
 function normalizeNewLines(contents: string) {
-    return contents.replace(newLineRegex, '\n');
+	return contents.replace(newLineRegex, '\n');
 }
 
 function splitNewLines(contents: string) {
-    const split = contents.split(newLineRegex);
+	const split = contents.split(newLineRegex);
 
-    return split;
+	return split;
 }
 
 export { normalizeNewLines, splitNewLines };

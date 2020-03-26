@@ -6,8 +6,8 @@ import { addManagedLines, removeManagedLines } from './utils/managed-lines';
 import { normalizeNewLines, splitNewLines } from './utils/new-lines';
 
 export interface Section {
-    id: string;
-    contents: string;
+	id: string;
+	contents: string;
 }
 
 export type Header = string;
@@ -15,90 +15,90 @@ export type Footer = string;
 export type Body = Section[];
 
 interface FileManagerParams {
-    file: string;
-    marker: string;
-    fileType: string;
+	file: string;
+	marker: string;
+	fileType: string;
 
-    header?: Header;
-    body?: Body;
-    footer?: Footer;
+	header?: Header;
+	body?: Body;
+	footer?: Footer;
 
-    allowUnmanagedContent?: boolean;
-    removeInitialContent?: boolean;
+	allowUnmanagedContent?: boolean;
+	removeInitialContent?: boolean;
 }
 
 async function fileManager(args: FileManagerParams) {
-    const {
-        //
-        file,
-        marker,
-        // fileType,
+	const {
+		//
+		file,
+		marker,
+		// fileType,
 
-        header,
-        body,
-        footer,
+		header,
+		body,
+		footer,
 
-        allowUnmanagedContent = false,
-    } = args;
+		allowUnmanagedContent = false,
+	} = args;
 
-    let { removeInitialContent = true } = args;
-    if (allowUnmanagedContent === false) {
-        // removeInitialContent cannot be false when allowUnmanagedContent is also false
-        removeInitialContent = true;
-    }
+	let { removeInitialContent = true } = args;
+	if (allowUnmanagedContent === false) {
+		// removeInitialContent cannot be false when allowUnmanagedContent is also false
+		removeInitialContent = true;
+	}
 
-    let fileContents: string;
-    try {
-        fileContents = await fse.readFile(file, 'utf8');
-    } catch (error) {
-        if (error.code !== 'ENOENT') {
-            throw error;
-        }
+	let fileContents: string;
+	try {
+		fileContents = await fse.readFile(file, 'utf8');
+	} catch (error) {
+		if (error.code !== 'ENOENT') {
+			throw error;
+		}
 
-        // handle files that do not exist
-        fileContents = '';
-    }
+		// handle files that do not exist
+		fileContents = '';
+	}
 
-    const normalizedSections = normalizeSections({ body, header, footer });
+	const normalizedSections = normalizeSections({ body, header, footer });
 
-    // move to everything below parsers/ignore.ts
-    const identifier = '#';
-    const contentsSplit = splitNewLines(fileContents);
+	// move to everything below parsers/ignore.ts
+	const identifier = '#';
+	const contentsSplit = splitNewLines(fileContents);
 
-    const excessSpacesRemoved = removeManagedLines({
-        contents: contentsSplit,
-        identifier,
-        marker,
-    });
+	const excessSpacesRemoved = removeManagedLines({
+		contents: contentsSplit,
+		identifier,
+		marker,
+	});
 
-    const unmanagedContentMap = mapUnmanagedContents({
-        contents: excessSpacesRemoved,
-        sections: normalizedSections,
-        identifier,
-        marker,
-        allowUnmanagedContent,
-        removeInitialContent,
-    });
+	const unmanagedContentMap = mapUnmanagedContents({
+		contents: excessSpacesRemoved,
+		sections: normalizedSections,
+		identifier,
+		marker,
+		allowUnmanagedContent,
+		removeInitialContent,
+	});
 
-    const update = updateContents({
-        unmanaged: unmanagedContentMap,
-        sections: normalizedSections,
-        allowUnmanagedContent,
-        marker,
-        identifier,
-    });
+	const update = updateContents({
+		unmanaged: unmanagedContentMap,
+		sections: normalizedSections,
+		allowUnmanagedContent,
+		marker,
+		identifier,
+	});
 
-    const managedNewLinesAdded = addManagedLines({
-        contents: update,
-        identifier,
-        marker,
-    });
+	const managedNewLinesAdded = addManagedLines({
+		contents: update,
+		identifier,
+		marker,
+	});
 
-    const initialMerge = managedNewLinesAdded.join('\n');
+	const initialMerge = managedNewLinesAdded.join('\n');
 
-    const normalized = normalizeNewLines(initialMerge);
+	const normalized = normalizeNewLines(initialMerge);
 
-    return normalized;
+	return normalized;
 }
 
 export { fileManager };

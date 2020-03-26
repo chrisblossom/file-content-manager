@@ -1,13 +1,13 @@
 import path from 'path';
 
 const map = {
-    '.js': 'javascript',
+	'.js': 'javascript',
 };
 
 function detectFileType(file: string) {
-    const parsed = path.parse(file);
+	const parsed = path.parse(file);
 
-    console.log(parsed);
+	console.log(parsed);
 }
 
 export { detectFileType };

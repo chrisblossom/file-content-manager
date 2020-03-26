@@ -16,6 +16,7 @@
   "types": "dist/file-manager.d.ts",
   "scripts": {
     "build": "backtrack build --production",
+    "check.all": "backtrack check.all",
     "clean": "backtrack clean",
     "dev": "backtrack dev --development",
     "format": "backtrack format",
@@ -34,11 +35,11 @@
   },
   "devDependencies": {
     "@backtrack/core": "^0.2.1",
-    "@backtrack/preset-node": "^0.4.6",
+    "@backtrack/preset-node": "^0.6.2",
     "@types/fs-extra": "^7.0.0",
     "@types/jest": "^24.0.13",
     "@types/node": "^12.0.3",
-    "temp-sandbox": "^3.0.0",
+    "temp-sandbox": "^4.0.1",
     "typescript": "^3.5.1"
   },
   "dependencies": {

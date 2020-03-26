@@ -1,23 +1,23 @@
 import { parseLine } from './parse-line';
 
 interface WasPreviouslyManagedParameters {
-    contents: string[];
-    identifier: string;
-    marker: string;
+	contents: string[];
+	identifier: string;
+	marker: string;
 }
 
 function wasPreviouslyManaged({
-    contents,
-    identifier,
-    marker,
+	contents,
+	identifier,
+	marker,
 }: WasPreviouslyManagedParameters) {
-    const previouslyManaged = contents.some((line) => {
-        const { isMarker } = parseLine({ line, identifier, marker });
+	const previouslyManaged = contents.some((line) => {
+		const { isMarker } = parseLine({ line, identifier, marker });
 
-        return isMarker;
-    });
+		return isMarker;
+	});
 
-    return previouslyManaged;
+	return previouslyManaged;
 }
 
 export { wasPreviouslyManaged };
