@@ -1,9 +1,12 @@
-import fse from 'fs-extra';
+import fs from 'fs';
+import { promisify } from 'util';
 import { updateContents } from './utils/update-contents';
 import { normalizeSections } from './utils/normalize-sections';
 import { mapUnmanagedContents } from './utils/map-unmanaged-contents';
 import { addManagedLines, removeManagedLines } from './utils/managed-lines';
 import { normalizeNewLines, splitNewLines } from './utils/new-lines';
+
+const readFileAsync = promisify(fs.readFile);
 
 export interface Section {
 	id: string;
@@ -62,7 +65,7 @@ async function fileManager(args: FileManagerParams): Promise<string> {
 
 	let fileContents: string;
 	try {
-		fileContents = await fse.readFile(file, 'utf8');
+		fileContents = await readFileAsync(file, 'utf8');
 	} catch (error) {
 		if (error.code !== 'ENOENT') {
 			throw error;
