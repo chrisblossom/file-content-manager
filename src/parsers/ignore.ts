@@ -1,3 +1,3 @@
-function ignore() {}
+function ignore(): void {}
 
 export { ignore };

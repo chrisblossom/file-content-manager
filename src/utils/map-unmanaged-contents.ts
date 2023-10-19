@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+
 import { parseLine } from './parse-line';
 import { wasPreviouslyManaged } from './was-previously-managed';
 import { SectionsNormalized } from './normalize-sections';
@@ -47,7 +49,7 @@ function mapUnmanagedContents({
 	 * Previously unmanaged content placement
 	 */
 	if (previouslyManaged === false) {
-		// footer will always be the last index but we won't want anything after the footer
+		// footer will always be the last index, but we won't want anything after the footer
 		const footerIndex = sections.ids.indexOf('footer');
 		lastSectionId =
 			footerIndex !== -1
@@ -97,13 +99,13 @@ function mapUnmanagedContents({
 						const nextLine = contents[index + 1] || '';
 
 						if (previousSectionLine !== '' && nextLine !== '') {
-							// add space when section removed
+							// add space when a section is removed
 							previousSection.push('');
 						} else if (
 							previousSectionLine === '' &&
 							nextLine === ''
 						) {
-							// combine double spaces when section removed
+							// combine double spaces when a section is removed
 							previousSection.pop();
 						}
 					}

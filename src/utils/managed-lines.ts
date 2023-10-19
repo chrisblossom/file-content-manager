@@ -6,7 +6,7 @@ interface Params {
 	marker: string;
 }
 
-function addManagedLines({ contents, identifier, marker }: Params) {
+function addManagedLines({ contents, identifier, marker }: Params): string[] {
 	let lastWasMarker = false;
 
 	const linesAdded = contents.reduce((acc: string[], line, index) => {
@@ -35,7 +35,7 @@ function addManagedLines({ contents, identifier, marker }: Params) {
 	}, []);
 
 	/**
-	 * always keep new line at end of file
+	 * always keep new line at the end of file
 	 */
 	if (linesAdded[linesAdded.length - 1] !== '') {
 		linesAdded.push('');
@@ -44,47 +44,54 @@ function addManagedLines({ contents, identifier, marker }: Params) {
 	return linesAdded;
 }
 
-function removeManagedLines({ contents, identifier, marker }: Params) {
+function removeManagedLines({
+	contents,
+	identifier,
+	marker,
+}: Params): string[] {
 	let skipNext = false;
 	let matchedNonEmptyString = false;
 
-	const linesRemoved = contents.reduceRight((acc: string[], line, index) => {
-		const lastLine = acc[0];
+	const linesRemoved = contents.reduceRight(
+		(acc: string[], line, index): string[] => {
+			const lastLine = acc[0];
 
-		const nextIndex = index - 1;
-		const nextLine = contents[nextIndex];
+			const nextIndex = index - 1;
+			const nextLine = contents[nextIndex];
 
-		if (matchedNonEmptyString === false) {
-			if (line === '') {
+			if (matchedNonEmptyString === false) {
+				if (line === '') {
+					return acc;
+				}
+
+				matchedNonEmptyString = true;
+			}
+
+			if (skipNext === true) {
+				skipNext = false;
 				return acc;
 			}
 
-			matchedNonEmptyString = true;
-		}
+			const { state } = parseLine({ line, identifier, marker });
 
-		if (skipNext === true) {
-			skipNext = false;
-			return acc;
-		}
-
-		const { state } = parseLine({ line, identifier, marker });
-
-		if (state === 'start') {
-			if (nextLine === '') {
-				skipNext = true;
-			}
-		}
-
-		if (state === 'end') {
-			if (lastLine === '') {
-				acc.shift();
+			if (state === 'start') {
+				if (nextLine === '') {
+					skipNext = true;
+				}
 			}
 
-			matchedNonEmptyString = false;
-		}
+			if (state === 'end') {
+				if (lastLine === '') {
+					acc.shift();
+				}
 
-		return [line, ...acc];
-	}, []);
+				matchedNonEmptyString = false;
+			}
+
+			return [line, ...acc];
+		},
+		[],
+	);
 
 	/**
 	 * remove leading lines

@@ -10,7 +10,7 @@ function wasPreviouslyManaged({
 	contents,
 	identifier,
 	marker,
-}: WasPreviouslyManagedParameters) {
+}: WasPreviouslyManagedParameters): boolean {
 	const previouslyManaged = contents.some((line) => {
 		const { isMarker } = parseLine({ line, identifier, marker });
 

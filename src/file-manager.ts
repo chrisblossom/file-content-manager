@@ -27,9 +27,22 @@ interface FileManagerParams {
 	removeInitialContent?: boolean;
 }
 
-async function fileManager(args: FileManagerParams) {
+/**
+ * Manages the content of a file by updating, removing, and adding sections.
+ *
+ * @param {FileManagerParams} args - The parameters for managing the file.
+ * @param {string} args.file - The path to the file.
+ * @param {string} args.marker - The marker used to identify sections in the file.
+ * @param {string} args.fileType - The type of the file.
+ * @param {string} args.header - The header section content.
+ * @param {string} args.body - The body section content.
+ * @param {string} args.footer - The footer section content.
+ * @param {boolean} [args.allowUnmanagedContent=false] - Indicates if unmanaged content is allowed.
+ * @param {boolean} [args.removeInitialContent=true] - Indicates if the initial content should be removed.
+ * @returns {Promise<string>} The updated content of the file.
+ */
+async function fileManager(args: FileManagerParams): Promise<string> {
 	const {
-		//
 		file,
 		marker,
 		// fileType,

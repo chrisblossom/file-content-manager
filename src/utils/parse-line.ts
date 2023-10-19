@@ -1,38 +1,34 @@
-function removeId(comment: string, identifier: string) {
-	const [, ...rest] = comment.split(identifier);
-
-	const commentIdRemoved = rest.join(identifier).trim();
-
-	return commentIdRemoved;
+function removeId(comment: string, identifier: string): string {
+	return comment
+		.split(identifier)
+		.slice(1)
+		.join(identifier)
+		.trim();
 }
 
-function isMarker(comment: string, identifier: string, marker: string) {
-	const idLength = marker.length;
-	const shouldEqualMarker = removeId(comment, identifier).substr(0, idLength);
-
-	const commentIsMarker = shouldEqualMarker === marker;
-
-	return commentIsMarker;
+function isMarker(
+	comment: string,
+	identifier: string,
+	marker: string,
+): boolean {
+	return removeId(comment, identifier).startsWith(marker);
 }
 
-function getMarkerData(markerComment: string, marker: string) {
+type markerDataType = ['start' | 'end', string];
+
+function getMarkerData(markerComment: string, marker: string): markerDataType {
 	const identifierLength = marker.length;
-
 	const markerText = markerComment.substring(identifierLength).trim();
 
-	// @ts-ignore
-	const markerData: ['start' | 'end', string] = markerText.split(' ');
+	const [markerType, markerValue]: markerDataType = markerText.split(
+		' ',
+	) as markerDataType;
 
-	return markerData;
+	return [markerType, markerValue];
 }
 
-function isComment(line: string, identifier: string) {
-	const identifierLength = identifier.length;
-	const firstChar = line.trim().substr(0, identifierLength);
-
-	const lineIsComment = firstChar === identifier;
-
-	return lineIsComment;
+function isComment(line: string, identifier: string): boolean {
+	return line.trim().startsWith(identifier);
 }
 
 interface ParseLineParameters {
