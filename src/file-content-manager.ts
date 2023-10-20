@@ -17,7 +17,7 @@ export type Header = string;
 export type Footer = string;
 export type Body = Section[];
 
-interface FileManagerParams {
+interface FileContentManagerParams {
 	file: string;
 	marker: string;
 	fileType: string;
@@ -33,7 +33,7 @@ interface FileManagerParams {
 /**
  * Manages the content of a file by updating, removing, and adding sections.
  *
- * @param {FileManagerParams} args - The parameters for managing the file.
+ * @param {FileContentManagerParams} args - The parameters for managing the file.
  * @param {string} args.file - The path to the file.
  * @param {string} args.marker - The marker used to identify sections in the file.
  * @param {string} args.fileType - The type of the file.
@@ -44,7 +44,9 @@ interface FileManagerParams {
  * @param {boolean} [args.removeInitialContent=true] - Indicates if the initial content should be removed.
  * @returns {Promise<string>} The updated content of the file.
  */
-async function fileManager(args: FileManagerParams): Promise<string> {
+async function fileContentManager(
+	args: FileContentManagerParams,
+): Promise<string> {
 	const {
 		file,
 		marker,
@@ -118,4 +120,4 @@ async function fileManager(args: FileManagerParams): Promise<string> {
 	return normalized;
 }
 
-export { fileManager };
+export { fileContentManager };

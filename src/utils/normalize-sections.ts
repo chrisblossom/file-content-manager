@@ -1,4 +1,4 @@
-import { Body, Header, Footer } from '../file-manager';
+import { Body, Header, Footer } from '../file-content-manager';
 
 interface NormalizeSectionsParameters {
 	body?: Body;

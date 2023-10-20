@@ -1,5 +1,5 @@
 import { TempSandbox } from 'temp-sandbox';
-import { fileManager } from './file-manager';
+import { fileContentManager } from './file-content-manager';
 
 const sandbox = new TempSandbox({ randomDir: true });
 
@@ -19,7 +19,7 @@ afterAll(() => {
 	process.chdir(cwd);
 });
 
-describe('fileManager', () => {
+describe('fileContentManager', () => {
 	test('file does not exist', async () => {
 		const body = [{ id: 'body1', contents: '# body1' }];
 
@@ -40,7 +40,7 @@ describe('fileManager', () => {
 			removeInitialContent,
 		};
 
-		const updatedFile = await fileManager(options);
+		const updatedFile = await fileContentManager(options);
 
 		expect(updatedFile).toEqual(
 			`
@@ -80,7 +80,7 @@ describe('fileManager', () => {
 .prettierrc.js
 # @managed start footer
 # old
-# footer 
+# footer
 # @managed end footer
 `.substring(1),
 		);
@@ -107,7 +107,7 @@ describe('fileManager', () => {
 			removeInitialContent,
 		};
 
-		const updatedFile = await fileManager(options);
+		const updatedFile = await fileContentManager(options);
 
 		expect(updatedFile).toEqual(
 			`
@@ -160,7 +160,7 @@ describe('fileManager', () => {
 		const removeInitialContent = false;
 		const allowUnmanagedContent = true;
 
-		const updatedFile = await fileManager({
+		const updatedFile = await fileContentManager({
 			file: '.gitignore',
 			marker: '@managed',
 			fileType: 'ignore',
@@ -210,7 +210,7 @@ describe('fileManager', () => {
 		const removeInitialContent = false;
 		const allowUnmanagedContent = false;
 
-		const updatedFile = await fileManager({
+		const updatedFile = await fileContentManager({
 			file: '.gitignore',
 			marker: '@managed',
 			fileType: 'ignore',

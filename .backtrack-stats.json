@@ -26,7 +26,7 @@
             "appveyor.yml": "25e43fbd67f7d31b81155aca953154dc7a03f94adfb66be204ed0787d9ce5eb9",
             "global.d.ts": "ignoreUpdates",
             "jest.config.js": "849190b5138d25fa0849678fb4a3c818fb0dccffbe6a86732713a18c4cc06b6d",
-            "src/file-manager.ts": "ignoreUpdates",
+            "src/file-content-manager.ts": "ignoreUpdates",
             "tsconfig.json": "b7765222162bd7b9dc3a36be44a3c4e64098eca46b8d5d9b5763ebf57c0afde0",
             "tsconfig.types.json": "4db21ced8c953cdf3e915864b7fac1c6cf5efdead1c33957a474bd00ac313aa2",
             "wallaby.config.js": "1685bb89c5e60c303b9a319b3ee52766bfc0c0b7cf5a2c0e5f8e67a0e8febeba"
@@ -39,7 +39,7 @@
         "files": [
             "dist/"
         ],
-        "main": "dist/file-manager.js",
+        "main": "dist/file-content-manager.js",
         "private": false,
         "scripts": {
             "build": "backtrack build --production",
@@ -60,6 +60,6 @@
             "test.watch": "jest --watch --pass-with-no-tests",
             "typescript": "backtrack typescript"
         },
-        "types": "dist/file-manager.d.ts"
+        "types": "dist/file-content-manager.d.ts"
     }
 }

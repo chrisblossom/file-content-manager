@@ -1,5 +1,5 @@
 {
-	"name": "file-manager",
+	"name": "file-content-manager",
 	"version": "0.0.0",
 	"description": "",
 	"keywords": [],
@@ -12,8 +12,8 @@
 	"files": [
 		"dist/"
 	],
-	"main": "dist/file-manager.js",
-	"types": "dist/file-manager.d.ts",
+	"main": "dist/file-content-manager.js",
+	"types": "dist/file-content-manager.d.ts",
 	"scripts": {
 		"build": "backtrack build --production",
 		"check.all": "backtrack check.all",
