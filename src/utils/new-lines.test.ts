@@ -13,6 +13,7 @@ describe('normalizeNewLines', () => {
 });
 
 describe('splitNewLines', () => {
+	// prettier-ignore
 	test.each`
 		contents                                     | expected
 		${'AAA\rBBB\nCCC\r\nDDD'}                    | ${['AAA', 'BBB', 'CCC', 'DDD']}

@@ -17,6 +17,7 @@ describe('parseLine', () => {
 	`(
 		'returns `$expected` identifier: `$identifier` marker: `$marker` text: `$text`',
 		({ identifier, marker, text, expected }) => {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			const parsed = parseLine({ line: text, identifier, marker });
 			expect(parsed).toEqual(expected);
 		},

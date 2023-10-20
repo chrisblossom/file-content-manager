@@ -135,7 +135,10 @@ function mapUnmanagedContents({
 
 			return {
 				...acc,
-				[sectionId]: [...matched, line],
+				[sectionId]: [
+					...matched,
+					line,
+				],
 			};
 		},
 		{},

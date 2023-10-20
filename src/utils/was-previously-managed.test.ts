@@ -29,7 +29,11 @@ describe('wasPreviouslyManaged', () => {
 	});
 
 	test('false', () => {
-		const contents = ['.eslintrc.js', '.prettierrc.js', ''];
+		const contents = [
+			'.eslintrc.js',
+			'.prettierrc.js',
+			'',
+		];
 
 		const identifier = '#';
 		const marker = '@managed';

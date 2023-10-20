@@ -19,19 +19,33 @@ function addManagedLines({ contents, identifier, marker }: Params): string[] {
 
 		if (state === 'start' && index !== 0) {
 			if (lastWasMarker === true) {
-				return [...acc, line];
+				return [
+					...acc,
+					line,
+				];
 			}
 
-			return [...acc, '', line];
+			return [
+				...acc,
+				'',
+				line,
+			];
 		}
 
 		if (state === 'end') {
 			lastWasMarker = true;
 
-			return [...acc, line, ''];
+			return [
+				...acc,
+				line,
+				'',
+			];
 		}
 
-		return [...acc, line];
+		return [
+			...acc,
+			line,
+		];
 	}, []);
 
 	/**
@@ -88,7 +102,10 @@ function removeManagedLines({
 				matchedNonEmptyString = false;
 			}
 
-			return [line, ...acc];
+			return [
+				line,
+				...acc,
+			];
 		},
 		[],
 	);

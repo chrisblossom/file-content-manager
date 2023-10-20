@@ -1,44 +1,45 @@
 {
-  "name": "file-manager",
-  "version": "0.0.0",
-  "description": "",
-  "keywords": [],
-  "license": "MIT",
-  "private": false,
-  "author": "",
-  "engines": {
-    "node": ">=8.9.0"
-  },
-  "files": [
-    "dist/"
-  ],
-  "main": "dist/file-manager.js",
-  "types": "dist/file-manager.d.ts",
-  "scripts": {
-    "build": "backtrack build --production",
-    "check.all": "backtrack check.all",
-    "clean": "backtrack clean",
-    "dev": "backtrack dev --development",
-    "format": "backtrack format",
-    "git-pre-commit": "backtrack git-pre-commit",
-    "git-pre-push": "backtrack git-pre-push",
-    "lint": "backtrack lint",
-    "lint.fix": "backtrack lint.fix",
-    "prepublishOnly": "backtrack prepublishOnly",
-    "release": "backtrack release",
-    "test": "backtrack test",
-    "test.ci": "backtrack test.ci",
-    "test.ci-pretest": "backtrack test.ci-pretest",
-    "test.update": "jest --update-snapshot",
-    "test.watch": "jest --watch",
-    "typescript": "backtrack typescript"
-  },
-  "devDependencies": {
-    "@backtrack/core": "^0.2.1",
-    "@backtrack/preset-node": "^0.6.2",
-    "@types/jest": "^24.0.13",
-    "@types/node": "^12.0.3",
-    "temp-sandbox": "^4.0.1",
-    "typescript": "^3.5.1"
-  }
+	"name": "file-manager",
+	"version": "0.0.0",
+	"description": "",
+	"keywords": [],
+	"license": "MIT",
+	"private": false,
+	"author": "",
+	"engines": {
+		"node": ">=14.15.0"
+	},
+	"files": [
+		"dist/"
+	],
+	"main": "dist/file-manager.js",
+	"types": "dist/file-manager.d.ts",
+	"scripts": {
+		"build": "backtrack build --production",
+		"check.all": "backtrack check.all",
+		"clean": "backtrack clean",
+		"dev": "backtrack dev --development",
+		"format": "backtrack format",
+		"git-pre-commit": "backtrack git-pre-commit",
+		"git-pre-push": "backtrack git-pre-push",
+		"lint": "backtrack lint",
+		"lint.fix": "backtrack lint.fix",
+		"prepublishOnly": "backtrack prepublishOnly",
+		"release": "backtrack release",
+		"test": "backtrack test",
+		"test.ci": "backtrack test.ci",
+		"test.ci-pretest": "backtrack test.ci-pretest",
+		"test.update": "jest --update-snapshot",
+		"test.watch": "jest --watch --pass-with-no-tests",
+		"typescript": "backtrack typescript"
+	},
+	"devDependencies": {
+		"@backtrack/core": "^0.2.1",
+		"@backtrack/preset-node": "^0.9.1",
+		"@types/babel__traverse": "7.17.1",
+		"@types/jest": "^24.0.13",
+		"@types/node": "^12.0.3",
+		"temp-sandbox": "^4.0.1",
+		"typescript": "^3.9.10"
+	}
 }

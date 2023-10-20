@@ -1,9 +1,5 @@
 function removeId(comment: string, identifier: string): string {
-	return comment
-		.split(identifier)
-		.slice(1)
-		.join(identifier)
-		.trim();
+	return comment.split(identifier).slice(1).join(identifier).trim();
 }
 
 function isMarker(
@@ -20,11 +16,15 @@ function getMarkerData(markerComment: string, marker: string): markerDataType {
 	const identifierLength = marker.length;
 	const markerText = markerComment.substring(identifierLength).trim();
 
-	const [markerType, markerValue]: markerDataType = markerText.split(
-		' ',
-	) as markerDataType;
+	const [
+		markerType,
+		markerValue,
+	]: markerDataType = markerText.split(' ') as markerDataType;
 
-	return [markerType, markerValue];
+	return [
+		markerType,
+		markerValue,
+	];
 }
 
 function isComment(line: string, identifier: string): boolean {
@@ -37,11 +37,7 @@ interface ParseLineParameters {
 	marker: string;
 }
 
-function parseLine({
-	line,
-	identifier,
-	marker,
-}: ParseLineParameters):
+function parseLine({ line, identifier, marker }: ParseLineParameters):
 	| { isComment: boolean; isMarker: false; state: ''; section: '' }
 	| {
 			isComment: true;
@@ -70,7 +66,10 @@ function parseLine({
 	}
 
 	const commentIdRemoved = removeId(line, identifier);
-	const [state, section] = getMarkerData(commentIdRemoved, marker);
+	const [
+		state,
+		section,
+	] = getMarkerData(commentIdRemoved, marker);
 
 	const sections = {
 		isComment: lineIsComment,

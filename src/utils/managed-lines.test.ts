@@ -220,8 +220,23 @@ describe('adds new line at end when not managed', () => {
 });
 
 describe('handles no managed content', () => {
-	const withLines = ['1', '', '', '2', '', '3', ''];
-	const withOutLines = ['1', '', '', '2', '', '3'];
+	const withLines = [
+		'1',
+		'',
+		'',
+		'2',
+		'',
+		'3',
+		'',
+	];
+	const withOutLines = [
+		'1',
+		'',
+		'',
+		'2',
+		'',
+		'3',
+	];
 
 	const identifier = '#';
 	const marker = '@managed';
@@ -299,7 +314,13 @@ describe('removeManagedLines', () => {
 	});
 
 	test('handles only empty lines', () => {
-		const contents = ['', '', '', '', ''];
+		const contents = [
+			'',
+			'',
+			'',
+			'',
+			'',
+		];
 
 		const identifier = '#';
 		const marker = '@managed';

@@ -32,7 +32,12 @@ function normalizeSections({
 	}
 
 	const normalized = body.reduce((acc: SectionsNormalized, section) => {
-		if (['header', 'footer'].includes(section.id)) {
+		if (
+			[
+				'header',
+				'footer',
+			].includes(section.id)
+		) {
 			throw new Error(
 				`"${section.id}" cannot be used as an id. Use option "${section.id}" instead or change identifier`,
 			);
@@ -43,7 +48,10 @@ function normalizeSections({
 			);
 		}
 
-		const ids = [...acc.ids, section.id];
+		const ids = [
+			...acc.ids,
+			section.id,
+		];
 		const contents = {
 			...acc.contents,
 			[section.id]: section.contents,

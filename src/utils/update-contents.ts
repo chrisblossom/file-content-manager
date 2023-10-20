@@ -28,7 +28,10 @@ function updateContents({
 					return acc;
 				}
 
-				return [...acc, ...unmanagedContent];
+				return [
+					...acc,
+					...unmanagedContent,
+				];
 			}
 
 			let startMarker: string[] = [];

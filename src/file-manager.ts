@@ -67,6 +67,7 @@ async function fileManager(args: FileManagerParams): Promise<string> {
 	try {
 		fileContents = await readFileAsync(file, 'utf8');
 	} catch (error) {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 		if (error.code !== 'ENOENT') {
 			throw error;
 		}

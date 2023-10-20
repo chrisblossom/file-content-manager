@@ -35,7 +35,10 @@ describe('mapUnmanagedContents', () => {
 		});
 
 		expect(sorted).toEqual({
-			header: ['1', '2'],
+			header: [
+				'1',
+				'2',
+			],
 			body: ['3'],
 		});
 	});
@@ -82,7 +85,20 @@ describe('mapUnmanagedContents', () => {
 		});
 
 		expect(sorted).toEqual({
-			'': ['1', '2', '', '3', '4', '5', '', '6', '7', '', '8', '9'],
+			'': [
+				'1',
+				'2',
+				'',
+				'3',
+				'4',
+				'5',
+				'',
+				'6',
+				'7',
+				'',
+				'8',
+				'9',
+			],
 		});
 	});
 
@@ -135,9 +151,22 @@ describe('mapUnmanagedContents', () => {
 		});
 
 		expect(sorted).toEqual({
-			header: ['1', '2'],
-			body1: ['3', '4', '5', '', '6', '7'],
-			body3: ['8', '9'],
+			header: [
+				'1',
+				'2',
+			],
+			body1: [
+				'3',
+				'4',
+				'5',
+				'',
+				'6',
+				'7',
+			],
+			body3: [
+				'8',
+				'9',
+			],
 		});
 	});
 
@@ -175,7 +204,10 @@ describe('mapUnmanagedContents', () => {
 
 		expect(sorted).toEqual({
 			body: ['.prettierrc.js'],
-			header: ['# comment', '.eslintrc.js'],
+			header: [
+				'# comment',
+				'.eslintrc.js',
+			],
 		});
 	});
 
@@ -212,7 +244,11 @@ describe('mapUnmanagedContents', () => {
 	});
 
 	test('no managed content', () => {
-		const contents = ['1', '2', '3'];
+		const contents = [
+			'1',
+			'2',
+			'3',
+		];
 
 		const identifier = '#';
 		const marker = '@managed';
@@ -231,12 +267,20 @@ describe('mapUnmanagedContents', () => {
 		});
 
 		expect(sorted).toEqual({
-			'': ['1', '2', '3'],
+			'': [
+				'1',
+				'2',
+				'3',
+			],
 		});
 	});
 
 	test('new managed content without', () => {
-		const contents = ['1', '2', '3'];
+		const contents = [
+			'1',
+			'2',
+			'3',
+		];
 
 		const identifier = '#';
 		const marker = '@managed';
@@ -262,12 +306,20 @@ describe('mapUnmanagedContents', () => {
 		});
 
 		expect(sorted).toEqual({
-			body1: ['1', '2', '3'],
+			body1: [
+				'1',
+				'2',
+				'3',
+			],
 		});
 	});
 
 	test('new managed content with header', () => {
-		const contents = ['1', '2', '3'];
+		const contents = [
+			'1',
+			'2',
+			'3',
+		];
 
 		const identifier = '#';
 		const marker = '@managed';
@@ -288,12 +340,20 @@ describe('mapUnmanagedContents', () => {
 		});
 
 		expect(sorted).toEqual({
-			header: ['1', '2', '3'],
+			header: [
+				'1',
+				'2',
+				'3',
+			],
 		});
 	});
 
 	test('new managed content with footer', () => {
-		const contents = ['1', '2', '3'];
+		const contents = [
+			'1',
+			'2',
+			'3',
+		];
 
 		const identifier = '#';
 		const marker = '@managed';
@@ -320,7 +380,11 @@ describe('mapUnmanagedContents', () => {
 		});
 
 		expect(sorted).toEqual({
-			body1: ['1', '2', '3'],
+			body1: [
+				'1',
+				'2',
+				'3',
+			],
 		});
 	});
 
@@ -364,7 +428,12 @@ describe('mapUnmanagedContents', () => {
 
 		expect(sorted).toEqual({
 			header: ['0'],
-			body1: ['1', '', '2', '3'],
+			body1: [
+				'1',
+				'',
+				'2',
+				'3',
+			],
 		});
 	});
 
@@ -407,8 +476,16 @@ describe('mapUnmanagedContents', () => {
 		});
 
 		expect(sorted).toEqual({
-			header: ['1', '2', '', '3'],
-			body1: ['4', '5'],
+			header: [
+				'1',
+				'2',
+				'',
+				'3',
+			],
+			body1: [
+				'4',
+				'5',
+			],
 		});
 	});
 
@@ -448,7 +525,12 @@ describe('mapUnmanagedContents', () => {
 	});
 
 	test('allowUnmanagedContent: true, removeInitialContent: true previouslyManaged: false', () => {
-		const contents = ['1', '2', '3', ''];
+		const contents = [
+			'1',
+			'2',
+			'3',
+			'',
+		];
 
 		const identifier = '#';
 		const marker = '@managed';
@@ -500,6 +582,12 @@ describe('mapUnmanagedContents', () => {
 			allowUnmanagedContent,
 		});
 
-		expect(sorted).toEqual({ header: ['1', '2', '3'] });
+		expect(sorted).toEqual({
+			header: [
+				'1',
+				'2',
+				'3',
+			],
+		});
 	});
 });

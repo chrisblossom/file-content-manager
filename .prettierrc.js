@@ -11,9 +11,17 @@
 
 const { Backtrack } = require('@backtrack/core');
 
-const { configManager } = new Backtrack();
+const { configManager, pkg } = new Backtrack();
+
+const packageId = '@backtrack/preset-style';
 
 const prettier = {
+	plugins: [
+		pkg.resolve(packageId, 'prettier-plugin-multiline-arrays'),
+		pkg.resolve(packageId, 'prettier-plugin-sh'),
+		pkg.resolve(packageId, 'prettier-plugin-svelte'),
+	],
+	multilineArraysWrapThreshold: 1,
 	semi: true,
 	tabWidth: 4,
 	useTabs: true,

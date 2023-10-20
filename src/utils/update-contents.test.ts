@@ -315,7 +315,12 @@ describe('updateContents', () => {
 		const identifier = '#';
 		const allowUnmanagedContent = true;
 
-		const unmanagedContentMap = { '': ['1', '2'] };
+		const unmanagedContentMap = {
+			'': [
+				'1',
+				'2',
+			],
+		};
 		const updated = updateContents({
 			unmanaged: unmanagedContentMap,
 			sections,
@@ -343,7 +348,12 @@ describe('updateContents', () => {
 		const identifier = '#';
 		const allowUnmanagedContent = true;
 
-		const unmanagedContentMap = { footer: ['1', '2'] };
+		const unmanagedContentMap = {
+			footer: [
+				'1',
+				'2',
+			],
+		};
 		const updated = updateContents({
 			unmanaged: unmanagedContentMap,
 			sections,
@@ -362,7 +372,10 @@ describe('updateContents', () => {
 	});
 
 	test('only unmanaged', () => {
-		const contents: string[] = ['1', '2'];
+		const contents: string[] = [
+			'1',
+			'2',
+		];
 
 		const sections = normalizeSections({});
 
@@ -388,7 +401,10 @@ describe('updateContents', () => {
 			allowUnmanagedContent,
 		});
 
-		expect(updated).toEqual(['1', '2']);
+		expect(updated).toEqual([
+			'1',
+			'2',
+		]);
 	});
 
 	test('empty', () => {
@@ -422,7 +438,10 @@ describe('updateContents', () => {
 	});
 
 	test('previously unmanaged - add body', () => {
-		const contents: string[] = ['1', '2'];
+		const contents: string[] = [
+			'1',
+			'2',
+		];
 
 		const sections = normalizeSections({
 			body: [{ id: 'body1', contents: '# body1' }],
@@ -460,7 +479,10 @@ describe('updateContents', () => {
 	});
 
 	test('previously unmanaged - add header body footer', () => {
-		const contents: string[] = ['1', '2'];
+		const contents: string[] = [
+			'1',
+			'2',
+		];
 
 		const sections = normalizeSections({
 			header: '',
@@ -503,7 +525,10 @@ describe('updateContents', () => {
 	});
 
 	test('allowUnmanagedContent: false - do not add markers', () => {
-		const contents: string[] = ['1', '2'];
+		const contents: string[] = [
+			'1',
+			'2',
+		];
 
 		const sections = normalizeSections({
 			header: '# header',
@@ -533,6 +558,12 @@ describe('updateContents', () => {
 			allowUnmanagedContent,
 		});
 
-		expect(updated).toEqual(['# header', '', '# body1', '', '# footer']);
+		expect(updated).toEqual([
+			'# header',
+			'',
+			'# body1',
+			'',
+			'# footer',
+		]);
 	});
 });
